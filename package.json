@@ -1,0 +1,26 @@
+{
+  "name": "node_rsa",
+  "version": "1.0.0",
+  "description": "an nodejs rsa file transmission",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chthollys/node_rsa.git"
+  },
+  "keywords": [
+    "nodejs",
+    "rsa"
+  ],
+  "author": "chthollys",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chthollys/node_rsa/issues"
+  },
+  "homepage": "https://github.com/chthollys/node_rsa#readme",
+  "devDependencies": {
+    "ursa": "^0.9.4"
+  }
+}
