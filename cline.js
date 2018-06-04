@@ -1,24 +1,53 @@
 const net = require('net');
 const NodeRSA = require('node-rsa');
 
-let test = 'Hello RSA!';
+
+let text = 'sent buffer data';
 const ServerPublicKey = new NodeRSA();
 
+function sendData (head,body){
+    let dataObj = {};
+    dataObj.head = head;
+    dataObj.body = body || "";
+    return JSON.stringify(dataObj);
+}
+
+
+function pauseData (data) {
+    console.log(data.toString());
+    const receiveData = JSON.parse(data.toString());
+    let resiveObj = {};
+    resiveObj.head = receiveData.head;
+    resiveObj.body = receiveData.body;
+    return resiveObj;
+}
 
 var client = new net.Socket();
 client.connect(54464, '127.0.0.1', function() {
- 	  client.write('Get RSA Public Key');
+    //第一步向服务器发送获取公钥请求
+ 	  client.write(sendData("Get RSA Public Key"));
 });
 
 client.on('data', function(data) {
-	  console.log('Received: ' + data);
-    //ServerPublicKey.importKey(data, 'pkcs8-public');
-    //var encryptedData = ServerPublicKey.encrypt(text, 'base64');
-    //client.write('Get RSAs Public Key');
-	  // kill client after server's response
-    client.end();
+    const receiveData = pauseData (data);
+    //第三步将明文使用公钥进行加密
+    if(receiveData.head === "Public Key"){
+        //console.log(receiveData.body);
+        ServerPublicKey.importKey(receiveData.body, 'pkcs8-public');
+        var encryptedData = ServerPublicKey.encrypt(text, 'base64');
+        let sendBuffer = sendData("encrypted code",encryptedData);
+        client.write(sendBuffer);
+    }
+    if(receiveData.head === "End"){
+        console.log("send success!")
+        client.end();
+    }
 });
 
 client.on('close', function() {
 	console.log('Connection closed');
+});
+
+client.on('error', (error) => {
+    console.log(error)
 });
