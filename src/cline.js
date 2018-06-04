@@ -1,8 +1,11 @@
+const fs = require('fs');
 const net = require('net');
 const NodeRSA = require('node-rsa');
 
 
-let text = 'sent buffer data';
+const PORT = 3307;
+
+let text = "5D41402ABC4B2A76B9719D911017C592";
 const ServerPublicKey = new NodeRSA();
 
 function sendData (head,body){
@@ -14,7 +17,7 @@ function sendData (head,body){
 
 
 function pauseData (data) {
-    console.log(data.toString());
+    //console.log(data.toString());
     const receiveData = JSON.parse(data.toString());
     let resiveObj = {};
     resiveObj.head = receiveData.head;
@@ -23,7 +26,7 @@ function pauseData (data) {
 }
 
 var client = new net.Socket();
-client.connect(54464, '127.0.0.1', function() {
+client.connect(PORT, '127.0.0.1', function() {
     //第一步向服务器发送获取公钥请求
  	  client.write(sendData("Get RSA Public Key"));
 });

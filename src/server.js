@@ -6,9 +6,8 @@ const fs = require('fs');
 const NodeRSA = require('node-rsa');
 const net = require('net');
 const client = new net.Socket();
-const Base64 = require('js-base64').Base64;
 //-----------配置项-------------
-const PORT = 54464;
+const PORT = 3307;
 //获取原始的密钥文件，包含公钥和私钥
 const PemData=fs.readFileSync("../key1024.pem","utf-8");
 //------------------------------
@@ -21,7 +20,7 @@ function sendData (head,body){
 }
 
 function pauseData (data) {
-		console.log(data.toString());
+		//console.log(data.toString());
     const receiveData = JSON.parse(data.toString());
     let resiveObj = {};
     resiveObj.head = receiveData.head;
@@ -53,7 +52,7 @@ var server = net.createServer((socket) => {
 
 				//关闭连接后
 		    socket.on('end', () => {
-		        console.log('Client disconnected');
+		        //console.log('Client disconnected');
 						socket.destroy()
 		    });
 				//错误处理
