@@ -14,7 +14,7 @@ npm install
 ```sh
 node server.js
 ```
-### 密钥文件可以使用程序自带的也可以自行生成
+### 密钥文件可以使用程序自带的也可以使用openssl生成
 ```sh
 openssl genrsa -out rsa_private_key.pem 1024
 ```
