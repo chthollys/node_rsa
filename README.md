@@ -14,6 +14,10 @@ npm install
 ```sh
 node server.js
 ```
+### 密钥文件可以使用程序自带的也可以自行生成
+```sh
+openssl genrsa -out rsa_private_key.pem 1024
+```
 
 ### 启动客户端，向获取服务端获取公钥，并使用公钥加密明文
 
